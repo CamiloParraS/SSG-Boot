@@ -1,5 +1,8 @@
+import sys
+import os
 import unittest
-from textnode import TextNode, TextType
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+from nodes import TextNode, TextType
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
@@ -37,4 +40,4 @@ class TestTextNode(unittest.TestCase):
         self.assertNotEqual(node11, node12)
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main() # type: ignore
