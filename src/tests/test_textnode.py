@@ -1,8 +1,10 @@
-import sys
 import os
+import sys
 import unittest
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from nodes import TextNode, TextType
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from nodes import TextNode, TextType, text_node_to_html_node
+
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
@@ -25,19 +27,56 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(node5, node6)
 
         # Test when the url attribute is set to a value
-        node7 = TextNode("This is a text node", TextType.LINKS, url="https://example.com")
-        node8 = TextNode("This is a text node", TextType.LINKS, url="https://example.com")
+        node7 = TextNode(
+            "This is a text node", TextType.LINKS, url="https://example.com"
+        )
+        node8 = TextNode(
+            "This is a text node", TextType.LINKS, url="https://example.com"
+        )
         self.assertEqual(node7, node8)
 
         # Test inequality of two TextNode instances with different url values
-        node9 = TextNode("This is a text node", TextType.LINKS, url="https://example.com")
-        node10 = TextNode("This is a text node", TextType.LINKS, url="https://different.com")
+        node9 = TextNode(
+            "This is a text node", TextType.LINKS, url="https://example.com"
+        )
+        node10 = TextNode(
+            "This is a text node", TextType.LINKS, url="https://different.com"
+        )
         self.assertNotEqual(node9, node10)
 
         # Test inequality between urls and images
-        node11 = TextNode("This is a text node", TextType.LINKS, url="https://example.com")
-        node12 = TextNode("This is a text node", TextType.IMAGES, url="https://example.com")
+        node11 = TextNode(
+            "This is a text node", TextType.LINKS, url="https://example.com"
+        )
+        node12 = TextNode(
+            "This is a text node", TextType.IMAGES, url="https://example.com"
+        )
         self.assertNotEqual(node11, node12)
 
+
+class TestTextNodeToHTMLNode(unittest.TestCase):
+    def test_text(self):
+        node = TextNode("This is a text node", TextType.TEXT)
+        html_node = text_node_to_html_node(node)
+        self.assertEqual(html_node.tag, None)
+        self.assertEqual(html_node.value, "This is a text node")
+
+    def test_image(self):
+        node = TextNode("This is an image", TextType.IMAGE, "https://www.boot.dev")
+        html_node = text_node_to_html_node(node)
+        self.assertEqual(html_node.tag, "img")
+        self.assertEqual(html_node.value, "")
+        self.assertEqual(
+            html_node.props,
+            {"src": "https://www.boot.dev", "alt": "This is an image"},
+        )
+
+    def test_bold(self):
+        node = TextNode("This is bold", TextType.BOLD)
+        html_node = text_node_to_html_node(node)
+        self.assertEqual(html_node.tag, "b")
+        self.assertEqual(html_node.value, "This is bold")
+
+
 if __name__ == "__main__":
-    unittest.main() # type: ignore
+    unittest.main()  # type: ignore
