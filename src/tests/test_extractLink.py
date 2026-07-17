@@ -3,7 +3,7 @@ import sys
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from extract_links import extract_markdown_images, extract_markdown_links
+from inline.extract_links import extract_markdown_images, extract_markdown_links
 
 
 # Add this class wrapper:

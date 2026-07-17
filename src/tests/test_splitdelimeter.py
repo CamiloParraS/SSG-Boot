@@ -4,7 +4,7 @@ import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from nodes import TextNode, TextType
-from split_delimeter import split_nodes_delimiter, split_nodes_image, split_nodes_link
+from inline.split_delimeter import split_nodes_delimiter, split_nodes_image, split_nodes_link
 
 
 class TestInline(unittest.TestCase):

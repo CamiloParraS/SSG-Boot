@@ -3,7 +3,7 @@ import sys
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from markdown_blocks import (
+from blocks.markdown_blocks import (
     BlockType,
     block_to_block_type,
     markdown_to_blocks,

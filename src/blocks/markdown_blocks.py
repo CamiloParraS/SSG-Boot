@@ -1,7 +1,7 @@
 from enum import Enum
 
 from nodes import HTMLNode, ParentNode, TextNode, TextType, text_node_to_html_node
-from split_delimeter import text_to_textnodes
+from inline.split_delimeter import text_to_textnodes
 
 
 class BlockType(Enum):
