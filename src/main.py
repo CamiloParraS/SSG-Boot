@@ -4,7 +4,7 @@ from blocks.markdown_blocks import markdown_to_html_node
 
 def main():
     copy_from_static_to_public_or_whatever()
-    generate_html_from_markdown("content/index.md", "template.html", "public/index.html")   
+    generate_pages_recursive("content", "template.html", "public")
     
 
 
@@ -52,6 +52,19 @@ def generate_html_from_markdown(from_path, template_path, dest_path) -> str:
     final_html = template_content.replace("{{ Content }}", html).replace("{{ Title }}", title)
     with open(dest_path, "w", encoding="utf-8") as f:
         f.write(final_html)
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    for root, dirs, files in os.walk(dir_path_content):
+        for file in files:
+            if file.endswith(".md"):
+                from_path = os.path.join(root, file)
+                relative_path = os.path.relpath(from_path, dir_path_content)
+                dest_path = os.path.join(dest_dir_path, relative_path)
+                dest_path = os.path.splitext(dest_path)[0] + ".html"
+                dest_dir = os.path.dirname(dest_path)
+                if not os.path.exists(dest_dir):
+                    os.makedirs(dest_dir)
+                generate_html_from_markdown(from_path, template_path, dest_path)
 
 if __name__ == "__main__":
     main()
