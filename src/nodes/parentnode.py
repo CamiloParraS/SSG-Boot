@@ -1,13 +1,21 @@
 from .htmlnode import HTMLNode
 
+
 class ParentNode(HTMLNode):
-    def __init__(self, tag : str, children : list[HTMLNode], props: dict[str,str] | None = None):
-        super().__init__(tag=tag, value=None, children=children, props=props)
+    def __init__(
+        self, tag: str, children: list[HTMLNode], props: dict[str, str] | None = None
+    ) -> None:
+        super().__init__(tag, None, children, props)
 
-    def to_html(self):
-        if not self.tag:
-            raise ValueError("Tag name cannot be empty")
+    def to_html(self) -> str:
+        if self.tag is None:
+            raise ValueError("invalid HTML: no tag")
         if self.children is None:
-            raise ValueError("Children cannot be None")
+            raise ValueError("invalid HTML: no children")
+        children_html = ""
+        for child in self.children:
+            children_html += child.to_html()
+        return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
 
-        return f"<{self.tag}>{''.join(child.to_html() for child in self.children)}</{self.tag}>"
+    def __repr__(self) -> str:
+        return f"ParentNode({self.tag}, children: {self.children}, {self.props})"
