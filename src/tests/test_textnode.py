@@ -49,7 +49,7 @@ class TestTextNode(unittest.TestCase):
             "This is a text node", TextType.LINKS, url="https://example.com"
         )
         node12 = TextNode(
-            "This is a text node", TextType.IMAGES, url="https://example.com"
+            "This is a text node", TextType.IMAGE, url="https://example.com"
         )
         self.assertNotEqual(node11, node12)
 
