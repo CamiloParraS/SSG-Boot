@@ -6,7 +6,7 @@ from blocks.markdown_blocks import markdown_to_html_node
 
 
 def main():
-    base_path = sys.argv[0] if len(sys.argv) > 0 else "/"
+    base_path = sys.argv[1] if len(sys.argv) > 0 else "/"
     copy_from_static_to_public_or_whatever()
     generate_pages_recursive("content", "template.html", "docs", base_path)
 
